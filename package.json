@@ -20,7 +20,10 @@
     "type": "git",
     "url": "git+https://github.com/Quramy/talt.git"
   },
-  "keywords": ["TypeScript", "AST"],
+  "keywords": [
+    "TypeScript",
+    "AST"
+  ],
   "author": "Quramy",
   "license": "MIT",
   "bugs": {
