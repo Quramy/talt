@@ -1,0 +1,9 @@
+.circleci
+.travis.yml
+.yarn.lock
+.git/
+.github/
+src/
+*.test.js
+tsconfig.*
+*.tsbuildinfo

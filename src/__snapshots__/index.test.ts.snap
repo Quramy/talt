@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`expressionTag 1`] = `"{ a: 1 }"`;
+
+exports[`node bind 1`] = `
+"{
+    a: A;
+    b: B;
+}"
+`;
+
+exports[`sourceTag 1`] = `
+"type a = 100;
+"
+`;
+
+exports[`statementTag 1`] = `"type a = 100;"`;
+
+exports[`typeTag 1`] = `
+"{
+    a: 1;
+}"
+`;
