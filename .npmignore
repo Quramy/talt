@@ -10,5 +10,5 @@ src/
 tsconfig.*
 *.tsbuildinfo
 .husky
-.prettierrc
+.prettierrc.yml
 .prettierignore
