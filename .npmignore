@@ -5,5 +5,10 @@
 .github/
 src/
 *.test.js
+*.test.d.ts
+*.test.js.map
 tsconfig.*
 *.tsbuildinfo
+.husky
+.prettierrc
+.prettierignore
