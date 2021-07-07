@@ -3,19 +3,19 @@ import ts from "typescript";
 import { template, printNode } from "./";
 
 test(template.type.name, () => {
-  const node = template.type`{ a: 1 }`;
+  const node = template.type<ts.TypeLiteralNode>`{ a: 1 }`;
   expect(ts.isTypeLiteralNode(node)).toBeTruthy();
   expect(printNode(node)).toMatchSnapshot();
 });
 
 test(template.expression.name, () => {
-  const node = template.expression`{ a: 1 }`;
+  const node = template.expression<ts.ObjectLiteralExpression>`{ a: 1 }`;
   expect(ts.isObjectLiteralExpression(node)).toBeTruthy();
   expect(printNode(node)).toMatchSnapshot();
 });
 
 test(template.statement.name, () => {
-  const node = template.statement`type a = 100`;
+  const node = template.statement<ts.TypeAliasDeclaration>`type a = 100`;
   expect(ts.isTypeAliasDeclaration(node)).toBeTruthy();
   expect(printNode(node)).toMatchSnapshot();
 });

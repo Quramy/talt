@@ -1,7 +1,7 @@
 {
   "name": "talt",
   "version": "1.0.0-alpha.0",
-  "description": "Library to compare 2 images",
+  "description": "Template functions to generate TypeScript AST.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -20,7 +20,7 @@
     "type": "git",
     "url": "git+https://github.com/Quramy/talt.git"
   },
-  "keywords": [],
+  "keywords": ["TypeScript", "AST"],
   "author": "Quramy",
   "license": "MIT",
   "bugs": {
@@ -28,6 +28,9 @@
   },
   "homepage": "https://github.com/quramy/talt#readme",
   "dependencies": {},
+  "peerDependencies": {
+    "typescript": "^3.0.0"
+  },
   "devDependencies": {
     "@types/jest": "26.0.23",
     "husky": "6.0.0",
