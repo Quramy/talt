@@ -1,18 +1,6 @@
-# Talt
-
-Template functions to generate TypeScript AST, inspired from [@babel/template](https://babeljs.io/docs/en/babel-template) .
-
-## Install
-
-```sh
-$ npm i talt typescript
-```
-
-## Usage
-
-```ts
 import ts from "typescript";
-import { template } from "talt";
+
+import { template } from "../";
 
 const typeNode = template.type("{ readonly hoge: string }")();
 
@@ -37,17 +25,3 @@ const generatedAst = compiledFn({
 const generetedOtherNode = compiledFn({
   SOME_PLACEHOLDER_KEY: ts.factory.createNumericLiteral("200"),
 }); // returns expression node, `60 * 200`
-```
-
-## API
-
-`template` has the following tag functions. Each tag function compiles and provides corresponding type AST.
-
-- `template.type`
-- `template.expression`
-- `template.statement`
-- `template.sourceFile`
-
-## License
-
-MIT

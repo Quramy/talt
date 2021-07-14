@@ -4,7 +4,7 @@ import { template, printNode } from "./";
 
 describe("Node type", () => {
   test(template.type.name, () => {
-    const node = template.type<ts.TypeLiteralNode>`{ a: 1 }`();
+    const node = template.type<ts.TypeLiteralNode>("{ a: 1 }")();
     expect(ts.isTypeLiteralNode(node)).toBeTruthy();
     expect(printNode(node)).toMatchSnapshot();
   });

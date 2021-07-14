@@ -31,7 +31,8 @@ function createReplacer<T extends ts.Node>(templateNode: T): (idPlaceholders?: R
   return placeholders => replace(templateNode, placeholders);
 }
 
-function tagFnBase(templateStrings: TemplateStringsArray, ...placeholders: ts.Node[]) {
+function tagFnBase(templateStrings: TemplateStringsArray | string, ...placeholders: ts.Node[]) {
+  if (typeof templateStrings === "string") return templateStrings;
   let srcString = templateStrings[0];
   for (let i = 1; i < templateStrings.length; i++) {
     srcString += printNode(placeholders[i - 1]);
@@ -41,7 +42,7 @@ function tagFnBase(templateStrings: TemplateStringsArray, ...placeholders: ts.No
 }
 
 function typeTag<T extends ts.TypeNode = ts.TypeNode>(
-  templateStrings: TemplateStringsArray,
+  templateStrings: TemplateStringsArray | string,
   ...placeholders: ts.Node[]
 ) {
   const source = ts.createSourceFile(
@@ -54,7 +55,7 @@ function typeTag<T extends ts.TypeNode = ts.TypeNode>(
 }
 
 function expressionTag<T extends ts.Expression = ts.Expression>(
-  templateStrings: TemplateStringsArray,
+  templateStrings: TemplateStringsArray | string,
   ...placeholders: ts.Node[]
 ) {
   const source = ts.createSourceFile(
@@ -68,14 +69,14 @@ function expressionTag<T extends ts.Expression = ts.Expression>(
 }
 
 function statementTag<T extends ts.Statement = ts.Statement>(
-  templateStrings: TemplateStringsArray,
+  templateStrings: TemplateStringsArray | string,
   ...placeholders: ts.Node[]
 ) {
   const source = ts.createSourceFile("", tagFnBase(templateStrings, ...placeholders), ts.ScriptTarget.Latest);
   return createReplacer(source.statements[0] as T);
 }
 
-function sourceTag(templateStrings: TemplateStringsArray, ...placeholders: ts.Node[]) {
+function sourceTag(templateStrings: TemplateStringsArray | string, ...placeholders: ts.Node[]) {
   const source = ts.createSourceFile("", tagFnBase(templateStrings, ...placeholders), ts.ScriptTarget.Latest);
   return createReplacer(source);
 }
