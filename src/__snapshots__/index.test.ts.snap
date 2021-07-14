@@ -1,27 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`expressionTag 1`] = `"{ a: 1 }"`;
+exports[`Node type expressionTag 1`] = `"{ a: 1 }"`;
 
-exports[`id placeholder 1`] = `"100 + 200 * 300"`;
-
-exports[`id placeholder 2`] = `"100 + \\"some string\\""`;
-
-exports[`node bind 1`] = `
-"{
-    a: A;
-    b: B;
-}"
-`;
-
-exports[`sourceTag 1`] = `
+exports[`Node type sourceTag 1`] = `
 "type a = 100;
 "
 `;
 
-exports[`statementTag 1`] = `"type a = 100;"`;
+exports[`Node type statementTag 1`] = `"type a = 100;"`;
 
-exports[`typeTag 1`] = `
+exports[`Node type typeTag 1`] = `
 "{
     a: 1;
+}"
+`;
+
+exports[`Replacement id placeholder 1`] = `"100 + 200 * 300"`;
+
+exports[`Replacement id placeholder 2`] = `"100 + \\"some string\\""`;
+
+exports[`Replacement node bind 1`] = `
+"{
+    a: A;
+    b: B;
 }"
 `;
