@@ -25,3 +25,10 @@ exports[`Replacement node bind 1`] = `
     b: B;
 }"
 `;
+
+exports[`Replacement string placeholder 1`] = `
+"{
+    a: A;
+    b: B;
+}"
+`;

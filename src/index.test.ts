@@ -3,8 +3,8 @@ import ts from "typescript";
 import { template, printNode } from "./";
 
 describe("Node type", () => {
-  test(template.type.name, () => {
-    const node = template.type<ts.TypeLiteralNode>("{ a: 1 }")();
+  test(template.typeNode.name, () => {
+    const node = template.typeNode<ts.TypeLiteralNode>("{ a: 1 }")();
     expect(ts.isTypeLiteralNode(node)).toBeTruthy();
     expect(printNode(node)).toMatchSnapshot();
   });
@@ -29,10 +29,17 @@ describe("Node type", () => {
 });
 
 describe("Replacement", () => {
+  test("string placeholder", () => {
+    const idA = "A";
+    const idB = "B";
+    const node = template.typeNode`{ a: ${idA}, b: ${idB} }`();
+    expect(printNode(node)).toMatchSnapshot();
+  });
+
   test("node bind", () => {
     const idA = ts.factory.createIdentifier("A");
     const idB = ts.factory.createIdentifier("B");
-    const node = template.type`{ a: ${idA}, b: ${idB} }`();
+    const node = template.typeNode`{ a: ${idA}, b: ${idB} }`();
     expect(printNode(node)).toMatchSnapshot();
   });
 

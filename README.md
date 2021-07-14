@@ -14,10 +14,10 @@ $ npm i talt typescript
 import ts from "typescript";
 import { template } from "talt";
 
-const typeNode = template.type("{ readonly hoge: string }")();
+const typeNode = template.typeNode("{ readonly hoge: string }")();
 
 // You can use `template` as tag function.
-const typeNodeUsingTagFn = template.type`
+const typeNodeUsingTagFn = template.typeNode`
   {
     readonly hoge: string;
   }
@@ -43,7 +43,7 @@ const generetedOtherNode = compiledFn({
 
 `template` has the following tag functions. Each tag function compiles and provides corresponding type AST.
 
-- `template.type`
+- `template.typeNode`
 - `template.expression`
 - `template.statement`
 - `template.sourceFile`

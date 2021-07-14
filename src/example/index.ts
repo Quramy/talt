@@ -2,10 +2,10 @@ import ts from "typescript";
 
 import { template } from "../";
 
-const typeNode = template.type("{ readonly hoge: string }")();
+const typeNode = template.typeNode("{ readonly hoge: string }")();
 
 // You can use `template` as tag function.
-const typeNodeUsingTagFn = template.type`
+const typeNodeUsingTagFn = template.typeNode`
   {
     readonly hoge: string;
   }
