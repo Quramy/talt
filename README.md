@@ -14,11 +14,15 @@ $ npm i talt typescript
 import ts from "typescript";
 import { template } from "talt";
 
-const typeNode = template.type`{ hoge: number }`; // returns ts.TypeLiteralNode
+const typeNode = template.type`{ hoge: number }`(); // returns ts.TypeLiteralNode
 
-const id = ts.factory.createIdentifier("Foo");
+const exp = template.expression<ts.BinraryExpressionNode>`200 * 2`(); // returns ts.BinraryExpressionNode
 
-const typeNodeWithPlaceholder = template.type`{ hoge: ${id} }`; // returns `{ hoge: Foo }` type AST node
+const fn = template.expression`100 + RIGHT_HAND_EXP`;
+
+const ast = fn({
+  RIGHT_HAND_EXP: exp,
+}); // returns ts.ExpressionNode corresponding to `100 + 200 * 2`
 ```
 
 ## API
