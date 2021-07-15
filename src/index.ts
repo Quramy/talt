@@ -1,4 +1,5 @@
 import ts from "typescript";
+import { LRUCache } from "./cache";
 
 export interface TypeScriptASTGenerator<T extends ts.Node> {
   (idPlaceholders?: Record<string, ts.Node>): T;
@@ -13,25 +14,32 @@ export interface TypeScriptASTGeneratorBuilder<S extends ts.Node> {
 
 const HIDDEN_IDENTIFIER_NAME = "__TALT_HIDDEN__";
 
-const dummySrc = ts.createSourceFile("", "", ts.ScriptTarget.Latest);
-const printer = ts.createPrinter({
-  removeComments: true,
-});
+const dummySrc = createSourceFile("");
+
+const printer = ts.createPrinter({ removeComments: true });
+
+const cache = new LRUCache<string, TypeScriptASTGenerator<ts.Node>>(200);
+
+function cloneNode<T extends ts.Node>(node: T): T {
+  return { ...node } as T;
+}
 
 function replace<T extends ts.Node>(s: T, idPlaceholders: Record<string, ts.Node> | undefined): T {
   const factory: ts.TransformerFactory<ts.Node> = ctx => {
-    const isEmpty = !idPlaceholders || Object.keys(idPlaceholders).length === 0;
     const visitor = (node: ts.Node): ts.Node => {
-      if (isEmpty) return node;
-      if (!ts.isIdentifier(node)) return ts.visitEachChild(node, visitor, ctx);
+      if (!ts.isIdentifier(node)) {
+        return cloneNode(ts.visitEachChild(node, visitor, ctx));
+      }
       const idv = node.escapedText as string;
-      if (!idPlaceholders![idv]) return node;
+      if (!idPlaceholders || !idPlaceholders![idv]) return cloneNode(node);
       return idPlaceholders![idv];
     };
     return visitor;
   };
   const result = ts.transform(s, [factory]);
-  return result.transformed[0] as T;
+  const node = result.transformed[0] as T;
+  result.dispose();
+  return node;
 }
 
 function createReplacer<T extends ts.Node>(templateNode: T): TypeScriptASTGenerator<T> {
@@ -53,39 +61,71 @@ function tagFnBase(templateStrings: TemplateStringsArray | string, ...placeholde
   return srcString;
 }
 
+function tryGetGeneratorFromCache<T extends ts.Node, S extends TypeScriptASTGenerator<T>>(
+  type: "typeNode" | "expression" | "statement" | "sourceFile",
+  text: string,
+  cb: (source: ts.SourceFile) => S,
+) {
+  const key = `// ${type}` + "\n" + text;
+  const cached = cache.get(key);
+  if (cached) {
+    return cached as S;
+  }
+  const source = createSourceFile(text);
+  const generatorFn = cb(source);
+  cache.set(key, generatorFn);
+  return generatorFn;
+}
+
 function typeTag<T extends ts.TypeNode = ts.TypeNode>(
   templateStrings: string | TemplateStringsArray,
   ...placeholders: (string | ts.Node)[]
 ) {
-  const source = createSourceFile(`type ${HIDDEN_IDENTIFIER_NAME} = ` + tagFnBase(templateStrings, ...placeholders));
-  const tad = source.statements[0] as ts.TypeAliasDeclaration;
-  return createReplacer(tad.type as T);
+  return tryGetGeneratorFromCache(
+    "typeNode",
+    `type ${HIDDEN_IDENTIFIER_NAME} = ` + tagFnBase(templateStrings, ...placeholders),
+    source => {
+      const tad = source.statements[0] as ts.TypeAliasDeclaration;
+      return createReplacer(tad.type as T);
+    },
+  );
 }
 
 function expressionTag<T extends ts.Expression = ts.Expression>(
   templateStrings: string | TemplateStringsArray,
   ...placeholders: (string | ts.Node)[]
 ) {
-  const source = createSourceFile(`${HIDDEN_IDENTIFIER_NAME} = ` + tagFnBase(templateStrings, ...placeholders));
-  const stmt = source.statements[0] as ts.ExpressionStatement;
-  const exp = stmt.expression as ts.BinaryExpression;
-  return createReplacer(exp.right as T);
+  return tryGetGeneratorFromCache(
+    "expression",
+    `${HIDDEN_IDENTIFIER_NAME} = ` + tagFnBase(templateStrings, ...placeholders),
+    source => {
+      const stmt = source.statements[0] as ts.ExpressionStatement;
+      const exp = stmt.expression as ts.BinaryExpression;
+      return createReplacer(exp.right as T);
+    },
+  );
 }
 
 function statementTag<T extends ts.Statement = ts.Statement>(
   templateStrings: string | TemplateStringsArray,
   ...placeholders: (string | ts.Node)[]
 ) {
-  const source = createSourceFile(tagFnBase(templateStrings, ...placeholders));
-  return createReplacer(source.statements[0] as T);
+  return tryGetGeneratorFromCache("statement", tagFnBase(templateStrings, ...placeholders), source =>
+    createReplacer(source.statements[0] as T),
+  );
 }
 
 function sourceTag<T extends ts.SourceFile>(
   templateStrings: string | TemplateStringsArray,
   ...placeholders: (string | ts.Node)[]
 ) {
-  const source = createSourceFile(tagFnBase(templateStrings, ...placeholders));
-  return createReplacer(source as T);
+  return tryGetGeneratorFromCache("sourceFile", tagFnBase(templateStrings, ...placeholders), source =>
+    createReplacer(source as T),
+  );
+}
+
+export function clearCache() {
+  cache.clearAll();
 }
 
 export function printNode(node: ts.Node) {

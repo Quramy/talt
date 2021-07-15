@@ -17,8 +17,6 @@ exports[`Node type typeTag 1`] = `
 
 exports[`Replacement id placeholder 1`] = `"100 + 200 * 300"`;
 
-exports[`Replacement id placeholder 2`] = `"100 + \\"some string\\""`;
-
 exports[`Replacement node bind 1`] = `
 "{
     a: A;
