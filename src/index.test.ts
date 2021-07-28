@@ -21,6 +21,12 @@ describe("Node type", () => {
     expect(printNode(node)).toMatchSnapshot();
   });
 
+  test(template.jsxAttribute.name, () => {
+    const node = template.jsxAttribute<ts.JsxAttribute>`id={id}`();
+    expect(ts.isJsxAttribute(node)).toBeTruthy();
+    expect(printNode(node)).toMatchSnapshot();
+  });
+
   test(template.sourceFile.name, () => {
     const node = template.sourceFile`type a = 100`();
     expect(ts.isSourceFile(node)).toBeTruthy();

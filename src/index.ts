@@ -62,7 +62,7 @@ function tagFnBase(templateStrings: TemplateStringsArray | string, ...placeholde
 }
 
 function tryGetGeneratorFromCache<T extends ts.Node, S extends TypeScriptASTGenerator<T>>(
-  type: "typeNode" | "expression" | "statement" | "sourceFile",
+  type: "typeNode" | "expression" | "statement" | "jsxAttribute" | "sourceFile",
   text: string,
   cb: (source: ts.SourceFile) => S,
 ) {
@@ -115,6 +115,22 @@ function statementTag<T extends ts.Statement = ts.Statement>(
   );
 }
 
+function jsxAttributeTag<T extends ts.JsxAttributeLike = ts.JsxAttribute>(
+  templateStrings: string | TemplateStringsArray,
+  ...placeholders: (string | ts.Node)[]
+) {
+  return tryGetGeneratorFromCache(
+    "jsxAttribute",
+    `${HIDDEN_IDENTIFIER_NAME} = <div ${tagFnBase(templateStrings, ...placeholders)} />`,
+    source => {
+      const stmt = source.statements[0] as ts.ExpressionStatement;
+      const exp = stmt.expression as ts.BinaryExpression;
+      const elm = exp.right as ts.JsxSelfClosingElement;
+      return createReplacer(elm.attributes.properties[0] as T);
+    },
+  );
+}
+
 function sourceTag<T extends ts.SourceFile>(
   templateStrings: string | TemplateStringsArray,
   ...placeholders: (string | ts.Node)[]
@@ -136,10 +152,12 @@ export const template: {
   readonly typeNode: TypeScriptASTGeneratorBuilder<ts.TypeNode>;
   readonly expression: TypeScriptASTGeneratorBuilder<ts.Expression>;
   readonly statement: TypeScriptASTGeneratorBuilder<ts.Statement>;
+  readonly jsxAttribute: TypeScriptASTGeneratorBuilder<ts.JsxAttributeLike>;
   readonly sourceFile: TypeScriptASTGeneratorBuilder<ts.SourceFile>;
 } = {
   typeNode: typeTag,
   expression: expressionTag,
   statement: statementTag,
+  jsxAttribute: jsxAttributeTag,
   sourceFile: sourceTag,
 };
