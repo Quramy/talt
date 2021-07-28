@@ -47,6 +47,7 @@ const generetedOtherNode = compiledFn({
 - `template.expression`
 - `template.statement`
 - `template.sourceFile`
+- `template.jsxAttribute`
 
 ## License
 

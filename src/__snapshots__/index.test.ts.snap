@@ -2,6 +2,8 @@
 
 exports[`Node type expressionTag 1`] = `"{ a: 1 }"`;
 
+exports[`Node type jsxAttributeTag 1`] = `"id={id}"`;
+
 exports[`Node type sourceTag 1`] = `
 "type a = 100;
 "
