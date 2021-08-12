@@ -1,5 +1,9 @@
 # Talt
 
+[![github actions](https://github.com/Quramy/talt/workflows/build/badge.svg)](https://github.com/Quramy/talt/actions)
+[![npm version](https://badge.fury.io/js/talt.svg)](https://badge.fury.io/js/talt)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Quramy/talt/main/LICENSE)
+
 Template functions to generate TypeScript AST, inspired from [@babel/template](https://babeljs.io/docs/en/babel-template) .
 
 ## Install
