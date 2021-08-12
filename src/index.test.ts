@@ -42,6 +42,16 @@ describe("Replacement", () => {
     expect(nodeA === nodeB).toBeFalsy();
   });
 
+  test("Generated node does not have position", () => {
+    const fn = template.expression("hoge");
+    const node = fn();
+    expect(() => node.getStart()).toThrowError();
+    expect(() => node.getEnd()).toThrowError();
+    expect(() => node.getWidth()).toThrowError();
+    expect(() => node.getFullStart()).toThrowError();
+    expect(() => node.getFullWidth()).toThrowError();
+  });
+
   test("string placeholder", () => {
     const idA = "A";
     const idB = "B";
