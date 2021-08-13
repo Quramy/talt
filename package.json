@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@types/jest": "26.0.24",
-    "husky": "6.0.0",
+    "husky": "7.0.1",
     "jest": "27.0.6",
     "pinst": "2.1.6",
     "prettier": "2.3.1",
