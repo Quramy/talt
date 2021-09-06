@@ -35,7 +35,7 @@
     "typescript": "^3.0.0 || ^4.0.0"
   },
   "devDependencies": {
-    "@types/jest": "26.0.24",
+    "@types/jest": "27.0.1",
     "husky": "7.0.1",
     "jest": "27.0.6",
     "pinst": "2.1.6",
