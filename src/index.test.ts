@@ -46,10 +46,7 @@ describe("Replacement", () => {
     const fn = template.expression("hoge");
     const node = fn();
     expect(() => node.getStart()).toThrowError();
-    expect(() => node.getEnd()).toThrowError();
     expect(() => node.getWidth()).toThrowError();
-    expect(() => node.getFullStart()).toThrowError();
-    expect(() => node.getFullWidth()).toThrowError();
   });
 
   test("string placeholder", () => {
