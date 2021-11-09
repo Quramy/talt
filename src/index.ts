@@ -1,5 +1,6 @@
 import ts from "typescript";
 import { LRUCache } from "./cache";
+import { cloneNode } from "./clone-node";
 
 export interface TypeScriptASTGenerator<T extends ts.Node> {
   (idPlaceholders?: Record<string, ts.Node>): T;
@@ -21,13 +22,6 @@ const printer = ts.createPrinter({ removeComments: true });
 const cache = new LRUCache<string, TypeScriptASTGenerator<ts.Node>>(200);
 
 type Mutable<T> = { -readonly [K in keyof T]: T[K] };
-
-function cloneNode<T extends ts.Node>(node: T): T {
-  const cloned = { ...node } as Mutable<T>;
-  cloned.pos = -1;
-  cloned.end = -1;
-  return cloned as T;
-}
 
 function replace<T extends ts.Node>(s: T, idPlaceholders: Record<string, ts.Node> | undefined): T {
   const factory: ts.TransformerFactory<ts.Node> = ctx => {
