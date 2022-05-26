@@ -1,6 +1,9 @@
 name: publish
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   publish:
@@ -8,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -20,8 +23,8 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
           npm whoami
-          yarn --frozen-lockfile
-          yarn build
+          npm ci
+          npm run build
           npm publish
         if: contains(github.ref, 'tags/v')
         env:
