@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "module": "node16",
+    "outDir": "./lib"
+  },
+  "exclude": ["**/*.test.ts", "**/*.test.cts"]
+}

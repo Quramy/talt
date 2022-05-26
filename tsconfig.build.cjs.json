@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "module": "commonjs",
+    "outDir": "./lib_cjs"
+  },
+  "exclude": ["**/*.test.ts", "**/*.test.cts", "**/*.mts"]
+}

@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { template } from "../";
+import { template } from "../index.js";
 
 const typeNode = template.typeNode("{ readonly hoge: string }")();
 

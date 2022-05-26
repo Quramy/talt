@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { template, printNode } from "./";
+import { template, printNode } from "./index.js";
 
 describe("Node type", () => {
   test(template.typeNode.name, () => {
