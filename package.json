@@ -1,6 +1,6 @@
 {
   "name": "talt",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Template functions to generate TypeScript AST.",
   "type": "module",
   "types": "./lib/index.d.ts",
