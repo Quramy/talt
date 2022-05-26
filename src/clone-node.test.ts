@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { cloneNode } from "./clone-node";
+import { cloneNode } from "./clone-node.js";
 
 describe(cloneNode, () => {
   it("should copy from node", () => {
