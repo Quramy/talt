@@ -7,7 +7,7 @@ export default {
     },
   },
   transform: {
-    "^.+\\.(mt)?ts$": "ts-jest",
+    "^.+\\.(mc)?ts$": "ts-jest",
   },
   moduleNameMapper: {
     "^(\\.\\.?/.*)\\.js$": ["$1.ts", "$1.js"],
