@@ -3,6 +3,7 @@ export default {
   globals: {
     "ts-jest": {
       diagnostics: false,
+      useESM: true,
     },
   },
   transform: {
@@ -14,7 +15,7 @@ export default {
     "^(\\.\\.?/.*)\\.cjs$": ["$1.cts", "$1.cjs"],
   },
   testMatch: ["**/?(*.)+(spec|test).?([mc])[jt]s"],
-  testPathIgnorePatterns: ["/node_modules/", "\\.d\\.ts$", "lib/.*", "lib_cjs/.*"],
+  testPathIgnorePatterns: ["/node_modules/", "/.rollup.cache/", "\\.d\\.ts$", "lib/.*", "lib_cjs/.*"],
   collectCoverageFrom: ["src/**/*.?([mc])ts", "!src/**/*.test.*"],
   moduleFileExtensions: ["ts", "mts", "cts", "js", "mjs", "cjs", "json"],
 };

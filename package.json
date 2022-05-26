@@ -3,8 +3,8 @@
   "version": "2.3.0",
   "description": "Template functions to generate TypeScript AST.",
   "type": "module",
+  "types": "./lib/index.d.ts",
   "main": "./lib_cjs/index.js",
-  "types": "./lib_cjs/index.d.ts",
   "exports": {
     ".": {
       "import": {
@@ -12,8 +12,8 @@
         "default": "./lib/index.js"
       },
       "require": {
-        "types": "./lib_cjs/index.d.ts",
-        "default": "./lib_cjs/index.js"
+        "types": "./lib/index.d.ts",
+        "default": "./lib_cjs/index.cjs"
       }
     }
   },
@@ -22,12 +22,12 @@
     "lib_cjs"
   ],
   "scripts": {
-    "clean": "rimraf lib lib_cjs \"*.tsbuildinfo\"",
+    "clean": "rimraf lib lib_cjs \"*.tsbuildinfo\" .rollup.cache coverage",
     "build": "npm run build:esm && npm run build:cjs",
     "build:esm": "tsc -p tsconfig.build.json",
-    "build:cjs": "tsc -p tsconfig.build.cjs.json",
-    "test": "jest",
-    "test:ci": "jest --coverage",
+    "build:cjs": "rollup -c rollup.config.cjs.js",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:ci": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "prettier": "prettier \"*.md\" \"*.json\" \"*.yml\" \"src/**/*\"",
     "format": "yarn prettier --write",
     "format:check": "yarn prettier --check",
@@ -54,6 +54,7 @@
     "typescript": "^3.0.0 || ^4.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "8.3.2",
     "@types/jest": "27.5.1",
     "husky": "8.0.1",
     "jest": "28.1.0",
@@ -61,6 +62,7 @@
     "prettier": "2.6.2",
     "pretty-quick": "3.1.3",
     "rimraf": "3.0.2",
+    "rollup": "2.74.1",
     "ts-jest": "28.0.3",
     "typescript": "4.7.2"
   }
