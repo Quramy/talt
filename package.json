@@ -54,7 +54,7 @@
     "typescript": "^3.0.0 || ^4.0.0"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "9.0.1",
+    "@rollup/plugin-typescript": "9.0.2",
     "@types/jest": "28.1.6",
     "husky": "8.0.1",
     "jest": "28.1.3",
