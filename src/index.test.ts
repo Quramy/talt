@@ -63,12 +63,23 @@ describe("Replacement", () => {
     expect(printNode(node)).toMatchSnapshot();
   });
 
-  test("id placeholder", () => {
-    const exp = template.expression`200 * 300`();
-    const fn = template.expression`100 + TO_BE_REPLACED`;
-    const node = fn({
-      TO_BE_REPLACED: exp,
+  describe("id placeholder", () => {
+    test("replacement", () => {
+      const exp = template.expression`200 * 300`();
+      const fn = template.expression`100 + TO_BE_REPLACED`;
+      const node = fn({
+        TO_BE_REPLACED: exp,
+      });
+      expect(printNode(node)).toMatchSnapshot();
     });
-    expect(printNode(node)).toMatchSnapshot();
+
+    test("same identifiers", () => {
+      const exp = template.expression`200 * 300`();
+      const fn = template.expression`100 + TO_BE_REPLACED + TO_BE_REPLACED`;
+      const node = fn({
+        TO_BE_REPLACED: exp,
+      });
+      expect(printNode(node)).toMatchSnapshot();
+    });
   });
 });
