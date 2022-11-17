@@ -1,13 +1,13 @@
 export default {
   extensionsToTreatAsEsm: [".ts", ".mts"],
-  globals: {
-    "ts-jest": {
-      diagnostics: false,
-      useESM: true,
-    },
-  },
   transform: {
-    "^.+\\.(mc)?ts$": "ts-jest",
+    "^.+\\.(mc)?ts$": [
+      "ts-jest",
+      {
+        diagnostics: false,
+        useESM: true,
+      },
+    ],
   },
   moduleNameMapper: {
     "^(\\.\\.?/.*)\\.js$": ["$1.ts", "$1.js"],
