@@ -82,4 +82,13 @@ describe("Replacement", () => {
       expect(printNode(node)).toMatchSnapshot();
     });
   });
+
+  describe("nested", () => {
+    test("replacement", () => {
+      const node = template.expression`
+        100 * ${template.expression`fuga * ${() => ts.factory.createNumericLiteral(10)}`}
+      `();
+      expect(printNode(node)).toMatchSnapshot();
+    });
+  });
 });
