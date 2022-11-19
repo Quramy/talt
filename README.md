@@ -41,6 +41,11 @@ const generatedAst = compiledFn({
 const generetedOtherNode = compiledFn({
   SOME_PLACEHOLDER_KEY: ts.factory.createNumericLiteral("200"),
 }); // returns expression node, `60 * 200`
+
+// You can use any function which returns ts.Node instead of identifier placeholder.
+const altCompiledFn = template.expression`
+  60 * ${() => binaryExpression}
+`; // returns expression node, `60 * 60 * 1000`
 ```
 
 ## API
