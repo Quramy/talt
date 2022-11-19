@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { template, printNode } from "./index.js";
+import { template, printNode, clearCache } from "./index.js";
 
 describe("Node type", () => {
   test(template.typeNode.name, () => {
@@ -81,13 +81,20 @@ describe("Replacement", () => {
       });
       expect(printNode(node)).toMatchSnapshot();
     });
-  });
 
-  describe("nested", () => {
-    test("replacement", () => {
+    test("anonymous function", () => {
       const node = template.expression`
         100 * ${template.expression`fuga * ${() => ts.factory.createNumericLiteral(10)}`}
       `();
+      expect(printNode(node)).toMatchSnapshot();
+    });
+
+    test("nested", () => {
+      const node = template.expression`
+        100 * ${template.expression`hoge * TO_BE_REPLACED`}
+      `({
+        TO_BE_REPLACED: template.expression`200`(),
+      });
       expect(printNode(node)).toMatchSnapshot();
     });
   });

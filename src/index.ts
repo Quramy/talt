@@ -19,7 +19,7 @@ const dummySrc = createSourceFile("");
 
 const printer = ts.createPrinter({ removeComments: true });
 
-const cache = new LRUCache<string, TypeScriptASTGenerator<ts.Node>>(200);
+const cache = new LRUCache<string, ts.SourceFile>(200);
 
 type Mutable<T> = { -readonly [K in keyof T]: T[K] };
 
@@ -93,13 +93,12 @@ function tryGetGeneratorFromCache<T extends ts.Node, S extends TypeScriptASTGene
 ) {
   const src = textModifier(text);
   const key = `// ${type}` + "\n" + src;
-  const cached = cache.get(key);
-  if (cached) {
-    return cached as S;
+  let cached = cache.get(key);
+  if (!cached) {
+    cached = createSourceFile(src);
+    cache.set(key, cached);
   }
-  const source = createSourceFile(src);
-  const generatorFn = cb(source, fnMap);
-  cache.set(key, generatorFn);
+  const generatorFn = cb(cached, fnMap);
   return generatorFn;
 }
 
