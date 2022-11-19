@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { template, printNode } from "./index.js";
+import { template, printNode, clearCache } from "./index.js";
 
 describe("Node type", () => {
   test(template.typeNode.name, () => {
@@ -78,6 +78,22 @@ describe("Replacement", () => {
       const fn = template.expression`100 + TO_BE_REPLACED + TO_BE_REPLACED`;
       const node = fn({
         TO_BE_REPLACED: exp,
+      });
+      expect(printNode(node)).toMatchSnapshot();
+    });
+
+    test("anonymous function", () => {
+      const node = template.expression`
+        100 * ${template.expression`fuga * ${() => ts.factory.createNumericLiteral(10)}`}
+      `();
+      expect(printNode(node)).toMatchSnapshot();
+    });
+
+    test("nested", () => {
+      const node = template.expression`
+        100 * ${template.expression`hoge * TO_BE_REPLACED`}
+      `({
+        TO_BE_REPLACED: template.expression`200`(),
       });
       expect(printNode(node)).toMatchSnapshot();
     });

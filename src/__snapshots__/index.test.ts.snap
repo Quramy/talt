@@ -17,6 +17,10 @@ exports[`Node type typeTag 1`] = `
 }"
 `;
 
+exports[`Replacement id placeholder anonymous function 1`] = `"100 * fuga * 10"`;
+
+exports[`Replacement id placeholder nested 1`] = `"100 * hoge * 200"`;
+
 exports[`Replacement id placeholder replacement 1`] = `"100 + 200 * 300"`;
 
 exports[`Replacement id placeholder same identifiers 1`] = `"100 + 200 * 300 + 200 * 300"`;
