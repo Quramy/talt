@@ -26,12 +26,22 @@ type Mutable<T> = { -readonly [K in keyof T]: T[K] };
 function replace<T extends ts.Node>(s: T, idPlaceholders: Record<string, ts.Node> | undefined): T {
   const factory: ts.TransformerFactory<ts.Node> = ctx => {
     const visitor = (node: ts.Node): ts.Node => {
-      if (!ts.isIdentifier(node)) {
+      if (ts.isTypeReferenceNode(node) && ts.isIdentifier(node.typeName)) {
+        const idv = node.typeName.escapedText as string;
+        if (!idv || !idPlaceholders || !idPlaceholders![idv]) return cloneNode(node);
+        const after = idPlaceholders![idv];
+        if (ts.isIdentifier(after) || ts.isQualifiedName(after)) {
+          return ts.factory.createTypeReferenceNode(after);
+        } else {
+          return after;
+        }
+      } else if (ts.isIdentifier(node)) {
+        const idv = node.escapedText as string;
+        if (!idv || !idPlaceholders || !idPlaceholders![idv]) return cloneNode(node);
+        return idPlaceholders![idv];
+      } else {
         return cloneNode(ts.visitEachChild(node, visitor, ctx));
       }
-      const idv = node.escapedText as string;
-      if (!idPlaceholders || !idPlaceholders![idv]) return cloneNode(node);
-      return idPlaceholders![idv];
     };
     return visitor;
   };
