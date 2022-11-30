@@ -19,7 +19,11 @@ exports[`Node type typeTag 1`] = `
 
 exports[`Replacement id placeholder anonymous function 1`] = `"100 * fuga * 10"`;
 
+exports[`Replacement id placeholder identifier to identifier replacement at nested type reference 1`] = `"type X = Y<After>;"`;
+
 exports[`Replacement id placeholder identifier to identifier replacement at type reference 1`] = `"type X = After;"`;
+
+exports[`Replacement id placeholder identifier to type node replacement at nested type reference 1`] = `"type X = Y<{}>;"`;
 
 exports[`Replacement id placeholder identifier to type node replacement at type reference 1`] = `"type X = {};"`;
 

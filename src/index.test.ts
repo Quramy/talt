@@ -115,5 +115,23 @@ describe("Replacement", () => {
       });
       expect(printNode(node)).toMatchSnapshot();
     });
+
+    test("identifier to type node replacement at nested type reference", () => {
+      const node = template.statement`
+        type X = Y<TO_BE_REPLACED>
+      `({
+        TO_BE_REPLACED: ts.factory.createTypeLiteralNode([]),
+      });
+      expect(printNode(node)).toMatchSnapshot();
+    });
+
+    test("identifier to identifier replacement at nested type reference", () => {
+      const node = template.statement`
+        type X = Y<TO_BE_REPLACED>
+      `({
+        TO_BE_REPLACED: ts.factory.createIdentifier("After"),
+      });
+      expect(printNode(node)).toMatchSnapshot();
+    });
   });
 });

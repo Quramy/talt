@@ -28,10 +28,16 @@ function replace<T extends ts.Node>(s: T, idPlaceholders: Record<string, ts.Node
     const visitor = (node: ts.Node): ts.Node => {
       if (ts.isTypeReferenceNode(node) && ts.isIdentifier(node.typeName)) {
         const idv = node.typeName.escapedText as string;
-        if (!idv || !idPlaceholders || !idPlaceholders![idv]) return cloneNode(node);
+        if (!idv || !idPlaceholders || !idPlaceholders![idv]) return cloneNode(ts.visitEachChild(node, visitor, ctx));
         const after = idPlaceholders![idv];
         if (ts.isIdentifier(after) || ts.isQualifiedName(after)) {
-          return ts.factory.createTypeReferenceNode(after);
+          return ts.factory.updateTypeReferenceNode(
+            node,
+            after,
+            node.typeArguments
+              ? ts.visitNodes(node.typeArguments, n => cloneNode(ts.visitEachChild(n, visitor, ctx)))
+              : undefined,
+          );
         } else {
           return after;
         }
