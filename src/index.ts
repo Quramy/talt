@@ -31,13 +31,12 @@ function replace<T extends ts.Node>(s: T, idPlaceholders: Record<string, ts.Node
         if (!idv || !idPlaceholders || !idPlaceholders![idv]) return cloneNode(ts.visitEachChild(node, visitor, ctx));
         const after = idPlaceholders![idv];
         if (ts.isIdentifier(after) || ts.isQualifiedName(after)) {
-          return ts.factory.updateTypeReferenceNode(
-            node,
-            after,
-            node.typeArguments
-              ? ts.visitNodes(node.typeArguments, n => cloneNode(ts.visitEachChild(n, visitor, ctx)))
-              : undefined,
-          );
+          const typeArguments = node.typeArguments
+            ? (ts.visitNodes(node.typeArguments, n =>
+                cloneNode(ts.visitEachChild(n, visitor, ctx)),
+              ) as ts.NodeArray<ts.TypeNode>)
+            : undefined;
+          return ts.factory.updateTypeReferenceNode(node, after, typeArguments);
         } else {
           return after;
         }
