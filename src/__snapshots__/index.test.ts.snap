@@ -11,7 +11,7 @@ exports[`Node type sourceTag 1`] = `
 
 exports[`Node type statementTag 1`] = `"type a = 100;"`;
 
-exports[`Node type typeTag 1`] = `
+exports[`Node type typeNodeTag 1`] = `
 "{
     a: 1;
 }"
