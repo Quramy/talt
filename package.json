@@ -22,19 +22,17 @@
     "lib_cjs"
   ],
   "scripts": {
+    "prepare": "husky",
     "clean": "rimraf lib lib_cjs \"*.tsbuildinfo\" .rollup.cache coverage",
     "build": "npm run build:esm && npm run build:cjs",
     "build:esm": "tsc -p tsconfig.build.json",
     "build:cjs": "rollup -c rollup.config.cjs.js",
     "test": "NODE_ENV=development NODE_OPTIONS=--experimental-vm-modules jest",
     "test:ci": "NODE_ENV=development NODE_OPTIONS=--experimental-vm-modules jest --coverage",
-    "prettier": "prettier \"*.md\" \"*.json\" \"*.yml\" \"src/**/*\"",
-    "format": "yarn prettier --write",
-    "format:check": "yarn prettier --check",
-    "lint": "yarn format:check",
-    "postinstall": "husky install",
-    "prepublishOnly": "pinst --disable",
-    "postpublish": "pinst --enable"
+    "prettier": "prettier .",
+    "format": "npm run prettier -- --write",
+    "format:check": "npm run prettier -- --check",
+    "lint": "npm run format:check"
   },
   "repository": {
     "type": "git",
@@ -58,7 +56,6 @@
     "@types/jest": "29.5.12",
     "husky": "9.0.11",
     "jest": "29.7.0",
-    "pinst": "3.0.0",
     "prettier": "3.3.1",
     "pretty-quick": "4.0.0",
     "rimraf": "5.0.6",

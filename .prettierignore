@@ -10,3 +10,4 @@ node_modules/
 .env
 .env.*
 __snapshots__/
+.husky/
