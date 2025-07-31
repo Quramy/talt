@@ -61,6 +61,6 @@
     "rimraf": "6.0.1",
     "rollup": "4.46.0",
     "ts-jest": "29.2.5",
-    "typescript": "5.5.3"
+    "typescript": "5.9.2"
   }
 }
