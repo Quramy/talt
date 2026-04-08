@@ -24,6 +24,7 @@
   "scripts": {
     "prepare": "husky",
     "clean": "rimraf -g lib lib_cjs \"*.tsbuildinfo\" coverage",
+    "tsc": "tsc --noEmit",
     "build": "npm run build:esm && npm run build:cjs",
     "build:esm": "tsc -p tsconfig.build.json",
     "build:cjs": "tsdown",
@@ -33,7 +34,7 @@
     "prettier": "prettier .",
     "format": "npm run prettier -- --write",
     "format:check": "npm run prettier -- --check",
-    "lint": "npm run format:check"
+    "lint": "npm run format:check && npm run tsc"
   },
   "repository": {
     "type": "git",
@@ -53,6 +54,7 @@
     "typescript": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0"
   },
   "devDependencies": {
+    "@types/node": "24.12.2",
     "husky": "9.0.11",
     "prettier": "3.8.1",
     "pretty-quick": "4.2.2",

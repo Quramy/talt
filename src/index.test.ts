@@ -1,5 +1,5 @@
 import { describe, test } from "node:test";
-import assert from "node:assert";
+
 import ts from "typescript";
 
 import { template, printNode } from "./index.ts";
@@ -7,48 +7,48 @@ import { template, printNode } from "./index.ts";
 describe("Node type", () => {
   test(template.typeNode.name, t => {
     const node = template.typeNode<ts.TypeLiteralNode>`{ a: 1 }`();
-    assert.ok(ts.isTypeLiteralNode(node));
+    t.assert.equal(ts.isTypeLiteralNode(node), true);
     t.assert.snapshot(printNode(node));
   });
 
   test(template.expression.name, t => {
     const node = template.expression<ts.ObjectLiteralExpression>`{ a: 1 }`();
-    assert.ok(ts.isObjectLiteralExpression(node));
+    t.assert.equal(ts.isObjectLiteralExpression(node), true);
     t.assert.snapshot(printNode(node));
   });
 
   test(template.statement.name, t => {
     const node = template.statement<ts.TypeAliasDeclaration>`type a = 100`();
-    assert.ok(ts.isTypeAliasDeclaration(node));
+    t.assert.equal(ts.isTypeAliasDeclaration(node), true);
     t.assert.snapshot(printNode(node));
   });
 
   test(template.jsxAttribute.name, t => {
     const node = template.jsxAttribute<ts.JsxAttribute>`id={id}`();
-    assert.ok(ts.isJsxAttribute(node));
+    t.assert.equal(ts.isJsxAttribute(node), true);
     t.assert.snapshot(printNode(node));
   });
 
   test(template.sourceFile.name, t => {
     const node = template.sourceFile`type a = 100`();
-    assert.ok(ts.isSourceFile(node));
+    t.assert.equal(ts.isSourceFile(node), true);
     t.assert.snapshot(printNode(node));
   });
 });
 
 describe("Replacement", () => {
-  test("compiled function generates new node instance", () => {
+  test("compiled function generates new node instance", t => {
     const fn = template.expression("100 + 100");
     const nodeA = fn();
     const nodeB = fn();
-    assert.notStrictEqual(nodeA, nodeB);
+    t.assert.notStrictEqual(nodeA, nodeB);
   });
 
-  test("Generated node does not have position", () => {
+  test("Generated node does not have position", t => {
     const fn = template.expression("hoge");
     const node = fn();
-    assert.throws(() => node.getStart());
-    assert.throws(() => node.getWidth());
+    t.assert.throws(() => node.getStart());
+    t.assert.throws(() => node.getWidth());
   });
 
   test("string placeholder", t => {
