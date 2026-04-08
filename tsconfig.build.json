@@ -7,5 +7,5 @@
     "rootDir": "./src",
     "outDir": "./lib"
   },
-  "exclude": ["lib", "**/*.test.ts", "**/*.test.cts"]
+  "exclude": ["lib", "**/*.test.ts", "**/*.test.cts", "tsdown.config.ts"]
 }
