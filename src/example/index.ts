@@ -30,3 +30,6 @@ const generetedOtherNode = compiledFn({
 const altCompiledFn = template.expression`
   60 * ${() => binaryExpression}
 `; // returns expression node, `60 * 60 * 1000`
+
+// The following line is to bypass the "unused variable" error.
+console.log(typeNode, typeNodeUsingTagFn, binaryExpression, generatedAst, generetedOtherNode, altCompiledFn);
