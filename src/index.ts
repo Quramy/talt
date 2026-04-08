@@ -1,6 +1,6 @@
 import ts from "typescript";
-import { LRUCache } from "./cache.js";
-import { cloneNode } from "./clone-node.js";
+import { LRUCache } from "./cache.ts";
+import { cloneNode } from "./clone-node.ts";
 
 export interface TypeScriptASTGenerator<T extends ts.Node> {
   (idPlaceholders?: Record<string, ts.Node>): T;
