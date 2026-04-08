@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "prepare": "husky",
-    "clean": "rimraf -g lib lib_cjs \"*.tsbuildinfo\" .rollup.cache coverage",
+    "clean": "rimraf -g lib lib_cjs \"*.tsbuildinfo\" coverage",
     "build": "npm run build:esm && npm run build:cjs",
     "build:esm": "tsc -p tsconfig.build.json",
     "build:cjs": "tsdown",
