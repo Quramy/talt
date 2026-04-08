@@ -1,40 +1,43 @@
 export class LRUCache<K, V> {
-  private _cacheMap = new Map<K, V>();
+  #cacheMap = new Map<K, V>();
+  #maxSize: number;
 
-  constructor(private _maxSize: number = 100) {}
+  constructor(maxSize: number = 100) {
+    this.#maxSize = maxSize;
+  }
 
   set(key: K, value: V) {
-    this._cacheMap.set(key, value);
-    if (this._cacheMap.size > this._maxSize) {
-      const lru = this._cacheMap.keys().next();
+    this.#cacheMap.set(key, value);
+    if (this.#cacheMap.size > this.#maxSize) {
+      const lru = this.#cacheMap.keys().next();
       if (!lru.done) {
-        this._cacheMap.delete(lru.value);
+        this.#cacheMap.delete(lru.value);
       }
     }
   }
 
   get(key: K) {
-    const result = this._cacheMap.get(key);
+    const result = this.#cacheMap.get(key);
     if (!result) return;
     return result;
   }
 
   has(key: K) {
-    return this._cacheMap.has(key);
+    return this.#cacheMap.has(key);
   }
 
   touch(key: K) {
-    const result = this._cacheMap.get(key);
+    const result = this.#cacheMap.get(key);
     if (!result) return;
-    this._cacheMap.delete(key);
-    this._cacheMap.set(key, result);
+    this.#cacheMap.delete(key);
+    this.#cacheMap.set(key, result);
   }
 
   del(key: K) {
-    this._cacheMap.delete(key);
+    this.#cacheMap.delete(key);
   }
 
   clearAll() {
-    this._cacheMap = new Map<K, V>();
+    this.#cacheMap = new Map<K, V>();
   }
 }

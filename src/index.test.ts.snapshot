@@ -1,0 +1,59 @@
+exports[`Node type > expressionTag 1`] = `
+"{ a: 1 }"
+`;
+
+exports[`Node type > jsxAttributeTag 1`] = `
+"id={id}"
+`;
+
+exports[`Node type > sourceTag 1`] = `
+"type a = 100;\\n"
+`;
+
+exports[`Node type > statementTag 1`] = `
+"type a = 100;"
+`;
+
+exports[`Node type > typeNodeTag 1`] = `
+"{\\n    a: 1;\\n}"
+`;
+
+exports[`Replacement > id placeholder > anonymous function 1`] = `
+"100 * fuga * 10"
+`;
+
+exports[`Replacement > id placeholder > identifier to identifier replacement at nested type reference 1`] = `
+"type X = Y<After>;"
+`;
+
+exports[`Replacement > id placeholder > identifier to identifier replacement at type reference 1`] = `
+"type X = After;"
+`;
+
+exports[`Replacement > id placeholder > identifier to type node replacement at nested type reference 1`] = `
+"type X = Y<{}>;"
+`;
+
+exports[`Replacement > id placeholder > identifier to type node replacement at type reference 1`] = `
+"type X = {};"
+`;
+
+exports[`Replacement > id placeholder > nested 1`] = `
+"100 * hoge * 200"
+`;
+
+exports[`Replacement > id placeholder > replacement 1`] = `
+"100 + 200 * 300"
+`;
+
+exports[`Replacement > id placeholder > same identifiers 1`] = `
+"100 + 200 * 300 + 200 * 300"
+`;
+
+exports[`Replacement > node bind 1`] = `
+"{\\n    a: A;\\n    b: B;\\n}"
+`;
+
+exports[`Replacement > string placeholder 1`] = `
+"{\\n    a: A;\\n    b: B;\\n}"
+`;
